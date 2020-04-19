@@ -19,7 +19,7 @@ public:
             for(int j=i-1; j>=0; j--) {
                 int diff = A[i] - A[j];
                 if(diff<A[j] && umap.count(diff)>0) {
-                    dp[i][j] = max(dp[i][j], dp[j][umap[diff]]+1);
+                    dp[i][j] = dp[j][umap[diff]] + 1;
                     res = max(res, dp[i][j]);
                 }
             }
