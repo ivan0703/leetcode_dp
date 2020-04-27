@@ -21,7 +21,7 @@ class Solution:
                 if y1 + 1 < N:
                     nset.add((x1, y1+1))
 
-                for j in range(len(lst)):
+                for j in range(0,i+1):
                     x2,y2 = lst[j][0], lst[j][1]
                     if grid[x2][y2] == -1:
                         continue
@@ -42,6 +42,7 @@ class Solution:
                     if dp[x1][y1][x2][y2] >= 0:
                         dp[x1][y1][x2][y2] += grid[x1][y1] + (grid[x2][y2] if (x1!=x2 or y1!=y2) else 0)
                     # print('dp[{}][{}][{}][{}]={}'.format(x1,y1,x2,y2,dp[x1][y1][x2][y2]))
+                    dp[x2][y2][x1][y1] = dp[x1][y1][x2][y2]
             q = nset
 
         return dp[M-1][N-1][M-1][N-1] if dp[M-1][N-1][M-1][N-1]>0 else 0
