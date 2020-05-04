@@ -5,21 +5,20 @@ class Solution:
         if len(stones)<2 or stones[0]!=0 or stones[1]!=1:
             return False
 
-        umap = {}
-        for i,s in enumerate(stones):
-            umap[s] = i
-        dp = [set() for _ in range(len(stones))]
+        dp = {}
+        for s in stones:
+            dp[s] = set()
         dp[1].add(1)
         for i in range(1, len(stones)-1):
-            for s in dp[i]:
-                if s-1 > 0 and (stones[i]+s-1) in umap:
-                    dp[umap[stones[i]+s-1]].add(s-1)
-                if stones[i]+s in umap:
-                    dp[umap[stones[i]+s]].add(s)
-                if stones[i]+s+1 in umap:
-                    dp[umap[stones[i]+s+1]].add(s+1)
+            for s in dp[stones[i]]:
+                if s-1 > 0 and (stones[i]+s-1) in dp:
+                    dp[stones[i]+s-1].add(s-1)
+                if stones[i]+s in dp:
+                    dp[stones[i]+s].add(s)
+                if stones[i]+s+1 in dp:
+                    dp[stones[i]+s+1].add(s+1)
 
-        return len(dp[len(stones)-1]) > 0
+        return len(dp[stones[-1]]) > 0
 
 if __name__ == "__main__":
     sol = Solution()
