@@ -31,15 +31,41 @@ class Solution:
         
         return ans
 
+
+    def dfs(self, start, end, left, boxes, umap):
+        if start > end:
+            return 0
+        
+        if (start,end,left) in umap:
+            return umap[(start,end,left)]
+
+        if start == end:
+            return (left+1)**2
+
+        res = (left+1)**2 + self.dfs(start+1,end,0,boxes,umap)
+        for i in range(start+1,end+1):
+            if boxes[i] == boxes[start]:
+                res = max(res, 
+                    self.dfs(start+1,i-1,0,boxes,umap) + self.dfs(i,end,left+1,boxes,umap))
+        umap[(start,end,left)] = res
+        return res
+
     def removeBoxes(self, boxes: List[int]) -> int:
+        N = len(boxes)
+        if N == 0:
+            return 0
+        
         umap = dict()
-        return self.maxPoint(boxes, umap)
+        return self.dfs(0, N-1, 0, boxes, umap)
 
 if __name__ == "__main__":
     sol = Solution()
+    print(sol.removeBoxes([1,3,1]))
     print(sol.removeBoxes([1,3,2,2,2,3,4,3,1]))
     print(sol.removeBoxes([1,3,2,2,2,3]))
 
-    # ary = [3,8,8,5,5,3,9,2,4,4,6,5,8,4,8,6,9,6,2,8,6,4,1,9,5,3,10,5,3,3,9,8,8,6,5,3,7,4,9,6,3,9,4,3,5,10,7,6,10,7]
-    ary = [3,8,8,5,5,3,9,2,4,4,6,5,8,4,8,6,9,6,2]
+    ary = [3,8,8,5,5,3,9,2,4,4,6,5,8,4,8,6,9,6,2,8,6,4,1,9,5,3,10,5,3,3,9,8,8,6,5,3,7,4,9,6,3,9,4,3,5,10,7,6,10,7]
+    print(sol.removeBoxes(ary))
+
+    ary = [1,1,1,1,1,1,1,1,1,1,2,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     print(sol.removeBoxes(ary))
