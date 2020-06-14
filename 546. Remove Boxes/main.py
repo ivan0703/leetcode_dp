@@ -42,7 +42,13 @@ class Solution:
         if start == end:
             return (left+1)**2
 
+        # remove consecutive same color in the left side
+        while start < end and boxes[start+1] == boxes[start]:
+            left += 1
+            start += 1
+
         res = (left+1)**2 + self.dfs(start+1,end,0,boxes,umap)
+        
         for i in range(start+1,end+1):
             if boxes[i] == boxes[start]:
                 res = max(res, 
@@ -67,5 +73,6 @@ if __name__ == "__main__":
     ary = [3,8,8,5,5,3,9,2,4,4,6,5,8,4,8,6,9,6,2,8,6,4,1,9,5,3,10,5,3,3,9,8,8,6,5,3,7,4,9,6,3,9,4,3,5,10,7,6,10,7]
     print(sol.removeBoxes(ary))
 
+    # 9606
     ary = [1,1,1,1,1,1,1,1,1,1,2,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     print(sol.removeBoxes(ary))
