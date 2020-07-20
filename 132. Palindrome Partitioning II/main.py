@@ -1,0 +1,37 @@
+class Solution:
+    def minCut(self, s: str) -> int:
+        dp = [[False for _ in range(len(s))] for _ in range(len(s))]
+        for i in range(len(s)):
+            dp[i][i] = True
+
+        for k in range(1,len(s)):
+            for i in range(0,len(s)-k):
+                j = i + k
+                if s[i] == s[j]:
+                    dp[i][j] = True if j==i+1 else dp[i+1][j-1]
+
+        return self.cutNum(dp)
+
+    def cutNum(self, pd):
+        dp = [[float('Inf') for _ in range(len(pd))] for _ in range(len(pd))]
+        for i in range(len(pd)):
+            dp[i][i] = 0
+
+        for k in range(1,len(pd)):
+            for i in range(len(pd)-k):
+                j = i + k
+                for c in range(i,j+1):
+                    if pd[i][c]:
+                        if c < j:
+                            dp[i][j] = min(dp[i][j], dp[i][c] + dp[c+1][j] + 1)
+                        else:
+                            dp[i][j] = 0
+        return dp[0][-1]
+
+if __name__ == "__main__":
+    sol = Solution()
+    print(sol.minCut("aaba"))
+    print(sol.minCut("aab"))
+    print(sol.minCut("abbab"))
+    print(sol.minCut("aaba"))
+    print(sol.minCut("aaabaa"))
