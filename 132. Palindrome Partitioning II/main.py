@@ -13,20 +13,12 @@ class Solution:
         return self.cutNum(dp)
 
     def cutNum(self, pd):
-        dp = [[float('Inf') for _ in range(len(pd))] for _ in range(len(pd))]
-        for i in range(len(pd)):
-            dp[i][i] = 0
-
-        for k in range(1,len(pd)):
-            for i in range(len(pd)-k):
-                j = i + k
-                if pd[i][j]:
-                    dp[i][j] = 0
-                    continue
-                for c in range(i,j):
-                    if pd[i][c]:
-                        dp[i][j] = min(dp[i][j], dp[i][c] + dp[c+1][j] + 1)
-        return dp[0][-1]
+        dp = [-1] + [float('Inf')] * len(pd)
+        for j in range(1,len(dp)):
+            for i in range(1,j+1):
+                if pd[i-1][j-1]:
+                    dp[j] = min(dp[j], dp[i-1]+1)
+        return dp[-1]
 
 if __name__ == "__main__":
     sol = Solution()
