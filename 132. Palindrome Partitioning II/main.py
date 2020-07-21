@@ -20,12 +20,12 @@ class Solution:
         for k in range(1,len(pd)):
             for i in range(len(pd)-k):
                 j = i + k
-                for c in range(i,j+1):
+                if pd[i][j]:
+                    dp[i][j] = 0
+                    continue
+                for c in range(i,j):
                     if pd[i][c]:
-                        if c < j:
-                            dp[i][j] = min(dp[i][j], dp[i][c] + dp[c+1][j] + 1)
-                        else:
-                            dp[i][j] = 0
+                        dp[i][j] = min(dp[i][j], dp[i][c] + dp[c+1][j] + 1)
         return dp[0][-1]
 
 if __name__ == "__main__":
@@ -35,3 +35,5 @@ if __name__ == "__main__":
     print(sol.minCut("abbab"))
     print(sol.minCut("aaba"))
     print(sol.minCut("aaabaa"))
+    print(sol.minCut("a"*1000))
+    print(sol.minCut("a"*200 + "bb" + "a"*210)) # slow
